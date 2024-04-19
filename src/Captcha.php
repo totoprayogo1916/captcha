@@ -61,13 +61,13 @@ class Captcha
         // default settings
         $width = 296;
         $height = 53;
-        $space = 20;
+        $space = 30;
 
-        $new = imagecreatetruecolor($width, $height);
-        $bg = imagecolorallocate($new, 255, 255, 255);
+        $new_image = imagecreatetruecolor($width, $height);
+        $bg = imagecolorallocate($new_image, 255, 255, 255);
 
-        imagefilledrectangle($new, 0, 0, $width - 1, $height - 1, $bg);
-        imagecopyresampled($new, $old, 0, 0, 0, 0, $width, $height, $info[0], $info[1]);
+        imagefilledrectangle($new_image, 0, 0, $width - 1, $height - 1, $bg);
+        imagecopyresampled($new_image, $old, 0, 0, 0, 0, $width, $height, $info[0], $info[1]);
         imagedestroy($old);
 
         $color = md5(random_string('alnum', 5));
@@ -81,19 +81,18 @@ class Captcha
                 hexdec(substr($color, mt_rand(0, 31), 2)),
             ];
 
-            $gap = 10 + ($i * $space);
-            $w = mt_rand(-10, 15);
-            $h = mt_rand($height - 10, $height - 5);
-            $fg = imagecolorallocate($new, $colors[mt_rand(1, 3)], $colors[mt_rand(1, 4)], $colors[mt_rand(0, 4)]);
+            $x = ($width * 28 / 100) + ($i * $space);
+            $y = mt_rand($height - 10, $height - 5);
+            $fg = imagecolorallocate($new_image, $colors[mt_rand(1, 3)], $colors[mt_rand(1, 4)], $colors[mt_rand(0, 4)]);
 
-            imagettftext($new, mt_rand(18, 20), $w, $gap, $h, $fg, $font, static::$characters[$i]);
+            imagettftext($new_image, 32, mt_rand(10, 45), $x, $y, $fg, $font, static::$characters[$i]);
         }
 
         // Start output buffering
         ob_start();
 
         // Output the image as PNG into the buffer
-        imagepng($new);
+        imagepng($new_image);
 
         // Get the buffered image data
         $imageData = ob_get_clean();
