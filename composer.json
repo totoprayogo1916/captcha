@@ -27,6 +27,11 @@
         "php": ">=7.4",
         "codeigniter4/framework": "^4.4"
     },
+    "autoload": {
+        "psr-4": {
+            "Esoftdream\\Captcha\\": "src/"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
