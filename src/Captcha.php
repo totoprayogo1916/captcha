@@ -59,8 +59,8 @@ class Captcha
         }
 
         // default settings
-        $width = 120;
-        $height = 30;
+        $width = 296;
+        $height = 53;
         $space = 20;
 
         $new = imagecreatetruecolor($width, $height);
