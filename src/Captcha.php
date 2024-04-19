@@ -1,8 +1,6 @@
 <?php
 
-namespace Esyede;
-
-defined('DS') or exit('No direct script access.');
+namespace Esoftdream\Captcha;
 
 use System\URL;
 use System\Str;

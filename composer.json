@@ -1,29 +1,36 @@
 {
-    "name": "esyede/captcha",
-    "description": "Paket captcha sederhana untuk rakit framework.",
-    "keywords": ["php", "captcha", "rakit"],
-    "homepage": "https://github.com/esyede/captcha",
+    "name": "esoftdream/captcha",
+    "description": "Captcha for CodeIgniter4",
+    "license": "proprietary",
     "type": "library",
-    "license": "MIT",
+    "keywords": [
+        "php",
+        "captcha",
+        "codeigniter4"
+    ],
     "authors": [
         {
             "name": "Suyadi",
             "email": "suyadi.1992@gmail.com",
             "homepage": "https://github.com/esyede/captcha",
             "role": "Creator"
+        },
+        {
+            "name": "Toto Prayogo",
+            "email": "totoprayogo1916@gmail.com",
+            "homepage": "https://totoprayogo1916.github.io",
+            "role": "Developer"
         }
     ],
-    "support": {
-        "issues": "https://github.com/esyede/captcha/issues?state=open",
-        "source": "https://github.com/esyede/captcha"
-    },
+    "homepage": "https://github.com/esoftdream/captcha",
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=7.4",
+        "codeigniter4/framework": "^4.4"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
