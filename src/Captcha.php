@@ -14,7 +14,7 @@ class Captcha
 
     public static function make($case_sensitive = false)
     {
-        helper('string');
+        helper('text');
         $encrypter = Services::encrypter();
 
         if (empty(static::$backgrounds)) {
@@ -54,7 +54,8 @@ class Captcha
             case 'image/png':  $old = imagecreatefrompng($bg);
                 break;
 
-            default:           throw new Exception('Only JPG, PNG and GIF are supported for backgrounds.');
+            default:
+                throw new Exception('Only JPG, PNG and GIF are supported for backgrounds.');
         }
 
         // default settings
@@ -88,12 +89,25 @@ class Captcha
             imagettftext($new, mt_rand(18, 20), $w, $gap, $h, $fg, $font, static::$characters[$i]);
         }
 
-        header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
-        header('Pragma: no-cache');
-        header('Content-type: image/png');
-        header('Content-Disposition: inline; filename=captcha.png');
+        // Start output buffering
+        ob_start();
 
-        return imagepng($new);
+        // Output the image as PNG into the buffer
+        imagepng($new);
+
+        // Get the buffered image data
+        $imageData = ob_get_clean();
+
+        // Encode the image data as base64
+        $base64Image = base64_encode($imageData);
+
+        // Return the base64 encoded image data
+        return $base64Image;
+    }
+
+    public static function show()
+    {
+        return '<img src="data:image/png;base64,' . static::make() . '" alt="">';
     }
 
     public static function check($value)
@@ -120,13 +134,16 @@ class Captcha
 
     protected static function fonts()
     {
-        $fonts = glob('./assets/fonts/*.ttf');
+        $directory = __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR;
+        $fonts = glob($directory . '*.ttf');
         static::$fonts = (is_array($fonts) && ! empty($fonts)) ? $fonts : [];
     }
 
     protected static function backgrounds()
     {
-        $backgrounds = glob('./assets/backgrounds*.png');
+        $directory = __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'backgrounds' . DIRECTORY_SEPARATOR;
+        $backgrounds = glob($directory . '*'); // Retrieve all files and directories in the specified directory
+
         static::$backgrounds = (is_array($backgrounds) && ! empty($backgrounds)) ? $backgrounds : [];
     }
 
